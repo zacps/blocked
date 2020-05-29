@@ -1,6 +1,6 @@
 //! This macro takes an issue pattern and an optional 'reason'.
 //!
-//! When the `BLOCKED_GITHUB_API_KEY` environment variable is found this macro will attempt to find the status of the referenced issue.
+//! When the `BLOCKED_GITHUB_API_KEY` environment variable is found, or a CI env is detected, this macro will attempt to find the status of the referenced issue.
 //! If the issue has been closed blocked will emit a warning containing the optional 'reason'.
 //!
 //! Because this requires network access, it is recommended this is only run in CI builds so as to not slow down the edit-run-debug cycle.
@@ -80,14 +80,16 @@ pub fn blocked(input: TokenStream) -> TokenStream {
         Err(err) => return TokenStream::from(err.to_compile_error()),
     };
 
-    // Check if we have an API key, otherwise exit silently
+    // Check if we have an API key or are running in a CI environment, otherwise exit silently
     let api_key = if let Ok(key) = std::env::var("BLOCKED_GITHUB_API_KEY") {
-        key
+        Some(key)
+    } else if let Some(_ci) = ci_detective::CI::from_env() {
+        None
     } else {
         return TokenStream::new();
     };
 
-    let client = github_client(&api_key);
+    let client = github_client(api_key.as_deref());
 
     // Get issue status
     let r = client.get(url).send().unwrap();
@@ -133,12 +135,14 @@ fn parse_args(input: TokenStream) -> Result<(String, Option<String>), syn::Error
 }
 
 /// Get a client suitable for interacting with the Github API
-fn github_client(api_key: &str) -> reqwest::blocking::Client {
+fn github_client(api_key: Option<&str>) -> reqwest::blocking::Client {
     let mut headers = HeaderMap::new();
-    headers.insert(
-        header::AUTHORIZATION,
-        header::HeaderValue::from_str(api_key).unwrap(),
-    );
+    if let Some(api_key) = api_key {
+        headers.insert(
+            header::AUTHORIZATION,
+            header::HeaderValue::from_str(api_key).unwrap(),
+        );
+    }
     headers.insert(
         header::USER_AGENT,
         header::HeaderValue::from_static("blocked-rs"),

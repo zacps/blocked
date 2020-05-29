@@ -1,9 +1,9 @@
 [package]
 name = "blocked"
-version = "0.0.0"
+version = "0.1.0"
 authors = ["Zac Pullar-Strecker <zacmps@gmail.com>"]
 description = "A proc-macro that checks if blockers (issues) have been resolved."
-keywords = ["template", "proc_macro", "procmacro"]
+keywords = ["proc_macro", "procmacro"]
 edition = "2018"
 repository = "https://github.com/zacps/blocked"
 license = "MIT"
@@ -20,3 +20,4 @@ url = "2.1.1"
 regex = "1.3.9"
 lazy_static = "1.4.0"
 git2 = "0.13"
+ci-detective = "0.1"

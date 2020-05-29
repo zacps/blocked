@@ -9,7 +9,7 @@ Blocked provides the `blocked!` macro. When compiled it will check whether the r
 
 This macro takes an issue pattern and an optional 'reason'.
 
-When the `BLOCKED_GITHUB_API_KEY` environment variable is found this macro will attempt to find the status of the referenced issue.
+When the `BLOCKED_GITHUB_API_KEY` environment variable is found, or a CI env is detected, this macro will attempt to find the status of the referenced issue.
 If the issue has been closed blocked will emit a warning containing the optional 'reason'.
 
 Because this requires network access, it is recommended this is only run in CI builds so as to not slow down the edit-run-debug cycle.
