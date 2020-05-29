@@ -2,7 +2,7 @@
 
 ```toml
 # Cargo.toml
-blocked = "0.1"
+blocked = "0.0.0"
 ```
 
 Blocked provides the `blocked!` macro. When compiled it will check whether the referenced issue has been closed and emit a compile warning if it has.
