@@ -1,5 +1,9 @@
 # blocked
 
+```toml
+blocked = "0.1"
+```
+
 This macro takes an issue pattern and an optional 'reason'.
 
 When the `BLOCKED_GITHUB_API_KEY` environment variable is found this macro will attempt to find the status of the referenced issue.
