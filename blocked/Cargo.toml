@@ -6,6 +6,7 @@ description = "A proc-macro that checks if blockers (issues) have been resolved.
 keywords = ["template", "proc_macro", "procmacro"]
 edition = "2018"
 repository = "https://github.com/zacps/blocked"
+license = "MIT"
 
 [lib]
 proc-macro = true
