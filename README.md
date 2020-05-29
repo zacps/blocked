@@ -1,7 +1,7 @@
 # blocked
 
 ```toml
-// Cargo.toml
+# Cargo.toml
 blocked = "0.1"
 ```
 
