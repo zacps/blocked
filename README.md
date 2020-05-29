@@ -5,6 +5,8 @@
 blocked = "0.1"
 ```
 
+Blocked provides the `blocked!` macro. When compiled it will check whether the referenced issue has been closed and emit a compile warning if it has.
+
 This macro takes an issue pattern and an optional 'reason'.
 
 When the `BLOCKED_GITHUB_API_KEY` environment variable is found this macro will attempt to find the status of the referenced issue.
