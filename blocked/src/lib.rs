@@ -75,6 +75,12 @@ pub fn blocked(input: TokenStream) -> TokenStream {
         Err(err) => return TokenStream::from(err.to_compile_error()),
     };
 
+    // Try to resolve the issue pattern to an issue API URL
+    let url = match parse_issue_pattern(&issue_pattern) {
+        Ok(url) => url,
+        Err(err) => return TokenStream::from(err.to_compile_error()),
+    };
+
     // Check if we have an API key, otherwise exit silently
     let api_key = if let Ok(key) = std::env::var("BLOCKED_GITHUB_API_KEY") {
         key
@@ -83,12 +89,6 @@ pub fn blocked(input: TokenStream) -> TokenStream {
     };
 
     let client = github_client(&api_key);
-
-    // Try to resolve the issue pattern to an issue API URL
-    let url = match parse_issue_pattern(&issue_pattern) {
-        Ok(url) => url,
-        Err(err) => return TokenStream::from(err.to_compile_error()),
-    };
 
     // Get issue status
     let r = client.get(url).send().unwrap();
