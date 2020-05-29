@@ -2,7 +2,7 @@
 name = "blocked"
 version = "0.0.0"
 authors = ["Zac Pullar-Strecker <zacmps@gmail.com>"]
-description = "A `cargo generate` template for quick-starting a procedural macro crate"
+description = "A proc-macro that checks if blockers (issues) have been resolved."
 keywords = ["template", "proc_macro", "procmacro"]
 edition = "2018"
 
