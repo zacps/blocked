@@ -95,9 +95,8 @@ pub fn blocked(input: TokenStream) -> TokenStream {
     let issue = r.json::<GithubIssueResponse>().unwrap();
     let issue_state = match issue {
         GithubIssueResponse::Err { message } => {
-            return TokenStream::from(
-                error(format!("Error fetching issue: {}", message)).to_compile_error(),
-            )
+            warning(format!("Error fetching issue: {}", message));
+            return TokenStream::new();
         }
         GithubIssueResponse::Ok { state } => state,
     };
@@ -182,7 +181,6 @@ fn parse_issue_pattern(pattern: &str) -> Result<Url, syn::Error> {
     }
     if let Some(captures) = ISSUE.captures(pattern) {
         let (org, repo) = try_get_org_repo()?;
-        eprintln!("got repo");
         return BASE
             .clone()
             .join(&format!(
@@ -235,4 +233,12 @@ fn try_get_org_repo() -> Result<(String, String), syn::Error> {
 
 fn error(message: impl AsRef<str>) -> syn::Error {
     syn::Error::new(proc_macro2::Span::call_site(), message.as_ref())
+}
+
+fn warning(message: impl AsRef<str>) {
+    Diagnostic::spanned(
+        [Span::call_site()].as_ref(),
+        Level::Warning,
+        message.as_ref(),
+    ).emit()
 }
