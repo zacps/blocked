@@ -1,6 +1,7 @@
 # blocked
 
 ```toml
+// Cargo.toml
 blocked = "0.1"
 ```
 

@@ -5,6 +5,7 @@ authors = ["Zac Pullar-Strecker <zacmps@gmail.com>"]
 description = "A proc-macro that checks if blockers (issues) have been resolved."
 keywords = ["template", "proc_macro", "procmacro"]
 edition = "2018"
+repository = "https://github.com/zacps/blocked"
 
 [lib]
 proc-macro = true
