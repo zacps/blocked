@@ -51,7 +51,6 @@ lazy_static! {
         r"(?:https://github.com/([\w-]+)/([\w-]+).git)|(?:git@github.com:([\w-]+)/([\w-]+).git)"
     )
     .unwrap();
-
     static ref BASE: Url = Url::parse("https://api.github.com/repos/").unwrap();
 }
 
@@ -240,5 +239,6 @@ fn warning(message: impl AsRef<str>) {
         [Span::call_site()].as_ref(),
         Level::Warning,
         message.as_ref(),
-    ).emit()
+    )
+    .emit()
 }
